@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/makawalu/persona/schema/persona.schema.json",
+  "title": "Persona",
+  "description": "An open standard for portable, context-aware digital personas",
+  "type": "object",
+  "required": ["persona"],
+  "properties": {
+    "persona": {
+      "type": "object",
+      "required": ["name", "version", "identity"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display name of the persona"
+        },
+        "tagline": {
+          "type": "string",
+          "description": "One-line description of the persona's role"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Schema version (semver)"
+        },
+        "identity": {
+          "type": "object",
+          "required": ["personality_traits", "communication_style"],
+          "properties": {
+            "personality_traits": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Core personality characteristics"
+            },
+            "expertise": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Areas of knowledge and skill"
+            },
+            "communication_style": {
+              "type": "string",
+              "description": "How the persona communicates by default"
+            },
+            "background": {
+              "type": "string",
+              "description": "Brief backstory or professional background"
+            },
+            "values": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Core values that guide behavior"
+            }
+          }
+        },
+        "contexts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "tone": {
+                "type": "string",
+                "description": "Emotional tone in this context"
+              },
+              "focus": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Priority topics in this context"
+              },
+              "style_overrides": {
+                "type": "object",
+                "properties": {
+                  "verbosity": {
+                    "type": "string",
+                    "enum": ["concise", "moderate", "detailed"]
+                  },
+                  "formality": {
+                    "type": "string",
+                    "enum": ["casual", "conversational", "professional", "formal"]
+                  },
+                  "emoji": {
+                    "type": "boolean",
+                    "description": "Whether to use emoji in this context"
+                  }
+                }
+              },
+              "tools": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Capabilities available in this context"
+              },
+              "boundaries": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Context-specific limits"
+              },
+              "opening": {
+                "type": "string",
+                "description": "How the persona greets in this context"
+              }
+            }
+          },
+          "description": "Named contexts that shift persona behavior"
+        },
+        "voice": {
+          "type": "object",
+          "properties": {
+            "pitch": {
+              "type": "string",
+              "enum": ["low", "medium-low", "medium", "medium-high", "high"]
+            },
+            "pace": {
+              "type": "string",
+              "enum": ["slow", "moderate", "fast"]
+            },
+            "accent": {
+              "type": "string"
+            },
+            "energy": {
+              "type": "string",
+              "enum": ["calm", "warm", "upbeat", "intense"]
+            },
+            "description": {
+              "type": "string",
+              "description": "Free-form voice description for TTS systems"
+            }
+          },
+          "description": "Voice characteristics for audio/TTS"
+        },
+        "visual": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "description": "Free-form visual description for image generation"
+            },
+            "avatar_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to a pre-generated avatar image"
+            },
+            "style": {
+              "type": "string",
+              "description": "Visual style (photorealistic, illustrated, anime, etc.)"
+            }
+          },
+          "description": "Visual description for avatars and image generation"
+        },
+        "boundaries": {
+          "type": "object",
+          "properties": {
+            "will_do": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Things this persona is designed to help with"
+            },
+            "wont_do": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Things this persona will decline or redirect"
+            },
+            "escalation": {
+              "type": "string",
+              "description": "What to do when a request falls outside boundaries"
+            }
+          },
+          "description": "Behavioral guardrails"
+        },
+        "memory": {
+          "type": "object",
+          "properties": {
+            "persistent_facts": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Facts the persona always knows about the user"
+            },
+            "preferences": {
+              "type": "object",
+              "additionalProperties": { "type": "string" },
+              "description": "User preferences the persona respects"
+            },
+            "relationship": {
+              "type": "string",
+              "description": "How the persona relates to the user"
+            }
+          },
+          "description": "Persistent context and user knowledge"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "author": { "type": "string" },
+            "license": { "type": "string" },
+            "tags": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "created": {
+              "type": "string",
+              "format": "date"
+            },
+            "updated": {
+              "type": "string",
+              "format": "date"
+            },
+            "inherits": {
+              "type": "string",
+              "description": "URI or path to a base persona this one extends"
+            }
+          }
+        }
+      }
+    }
+  }
+}
